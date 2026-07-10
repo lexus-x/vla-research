@@ -73,12 +73,7 @@ def run_suite(mdl_name):
         inp = proc(instr, img)
         return inp["input_ids"].tolist() if "input_ids" in inp else None
 
-    # Use placeholder images — NOTE: real experiments must use real LIBERO frames
-    eps = [
-        {"img": Image.fromarray(np.random.randint(0, 255, (128, 128, 3), dtype=np.uint8)),
-         "instr": t}
-        for t in ["pick up the red bowl", "open the drawer", "push the mug"]
-    ]
+    raise RuntimeError("No real LIBERO frames. Refusing to run on synthetic noise — see RESUME.md")
 
     results = {}
 
@@ -114,8 +109,7 @@ def run_suite(mdl_name):
             ids = get_token_ids(e["img"], instr)
             if prev_ids is not None and s > 0:
                 if ids == prev_ids:
-                    print(f"  WARNING: input_ids identical at s={s} — ablation not reaching model!",
-                          flush=True)
+                    import sys; sys.exit(1)
             prev_ids = ids
             print(f"  s={s:.1f}: instr='{instr}' -> ids_len={len(ids) if ids else None}", flush=True)
 
