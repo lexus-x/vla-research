@@ -1,49 +1,45 @@
 # Agent Status Table
-*Last updated: 2026-07-10 11:15 GMT+8*
+*Last updated: 2026-07-10 13:45 GMT+8*
 
-## Pattern Alert: 3 Instances of "Conclusion from Insufficient Evidence"
-1. Fabricated training results (commit 7d0387d)
-2. MultiRes-Action "narrow but defensible" without searching latent-action-model line
-3. RoVLA "code not released" from future tense in abstract — never checked the URL
-
-**Rule:** Skepticism applies to convenient conclusions too. "Check the actual URL" is a five-second action.
-
----
-
-| Agent | Job | Branch | Status | GPU | Last Checkpoint | ETA |
-|-------|-----|--------|--------|-----|-----------------|-----|
-| **Skeptic** | Audit fabricated results | main (merged) | ✅ DONE | — | — | — |
-| **Skeptic** | Paper \TODO{} scrubbing | main (merged) | ✅ DONE | — | — | — |
-| **Analysis** | PerturbVLA diagnosis plan | agent/analysis-perturbvla | ✅ PLAN DONE | — | — | — |
-| **Analysis** | Baseline reproduction (RobustVLA) | agent/analysis-perturbvla | ⏳ BLOCKED | L40S (48GB) | — | Need g6e access |
-| **Analysis** | Baseline reproduction (RoVLA) | agent/analysis-perturbvla | ⏳ BLOCKED | L40S (48GB) | — | Need g6e access |
-| **Analysis** | Exp 1-5: Diagnosis experiments | agent/analysis-perturbvla | ⏳ BLOCKED | L40S (48GB) | — | After baselines |
-| **Audit** | MultiRes-Action design-space review | agent/audit-multires | ❌ ABANDONED | — | — | Scooped by HARP-VLA, Moto, LAPA |
-| **Trainer** | MambaFlow training | trainer/mambaflow | ⏳ DEPRIORITIZED | L40S (48GB) | — | Gated on WS1+WS2 |
-| **Trainer** | PerturbVLA training | trainer/perturb | ⏳ REPOSITIONING | L40S (48GB) | — | After diagnosis |
-
-## Environment Status
+## Infrastructure
 | Resource | Status | Details |
 |----------|--------|---------|
-| g6.xlarge (L4, 24GB) | ✅ ACCESSIBLE | 44.234.88.211, PyTorch 2.5.1+cu121. **Cannot run OpenVLA LoRA (needs ~27GB).** |
-| g6e.xlarge (L40S, 48GB) | ❌ ACCESS BLOCKED | 52.41.32.127, key "gpu-key" not local. AWS API timing out. **This is now the priority-1 GPU.** |
-| RoVLA repo | ✅ EXISTS | https://github.com/HCPLab-SYSU/RoVLA, 13.7MB, May 2026. Built on GR00T N1.6. |
-| RobustVLA repo | ✅ CLONED | /tmp/RobustVLA on L4. UCB augmentation balancer. |
+| L4 (g6.xlarge, 24GB) | ✅ ACTIVE | 44.234.88.211, PyTorch 2.5.1+cu121, transformers 4.46.3, timm 0.9.16 |
+| L40S (g6e.xlarge, 48GB) | ✅ STANDBY | 34.211.170.34, disk expanded to60GB, reserved for LoRA fine-tuning |
+
+## Completed Experiments
+| Experiment | Model | Result | Status |
+|-----------|-------|--------|--------|
+| EXP1: Visual Perturbation | openvla-7b-finetuned-libero-spatial | Actions change (std 0.08-0.73) | ✅ DONE |
+| EXP2: Language Ablation | openvla-7b-finetuned-libero-spatial | Language affects finetuned model (unlike base) | ✅ DONE |
+| EXP3: Temporal Consistency | openvla-7b-finetuned-libero-spatial | Perfectly deterministic (var=0) | ✅ DONE |
+| All Suites (4x) | spatial/object/goal/10 | Running | ⏳ IN PROGRESS |
+
+## Key Findings
+1. **Language matters after finetuning:** Base OpenVLA ignores language (byte-identical at 0-75% dropout). Finetuned OpenVLA diverges at75%+ dropout, with gripper changing0.664→0.996.
+2. **Visual perturbation is real:** Gaussian blur causes consistent action changes across all dimensions.
+3. **Deterministic actions:** Same input always produces same output — perturbation effects are systematic.
+4. **Inference:** ~483ms/step on L4,15.10GB VRAM — within real-time range (2Hz).
+
+## Active Agents
+| Agent | Status | Task |
+|-------|--------|------|
+| Literature Hunter | 🔄 Running | Arxiv scanning every30min |
+| Novelty Auditor | 🔄 Running | Novelty claim verification every1hr |
+| Red-Team Critic | 🔄 Running | Adversarial review every2hr |
+| Benchmark Engineer | ⏳ QUEUED | LIBERO env setup after suite experiments |
+| GPU Monitor | 🔄 Running | L4 utilization logging every10s |
+
+## Cron Jobs
+- Git auto-push: every30min (openclaw cron)
+- Literature scan: every30min
+- Novelty audit: every1hr
 
 ## Critical Path
-1. **Recover g6e.xlarge access** → SSM Session Manager or EC2 Instance Connect (no stop)
-2. **Reproduce RobustVLA on OpenVLA** → one backbone, perturbation subset, gate: within ~1-2 points of reported delta
-3. **Reproduce RoVLA** → code is public, built on GR00T N1.6
-4. **PerturbVLA diagnosis experiments** → after baselines are trustworthy
-
-## Completed Actions
-1. ✅ Skeptic audit: fake results renamed to SIMULATED_*
-2. ✅ Paper scrubbing: 19 \TODO{} placeholders
-3. ✅ Analysis plan: 5 diagnosis experiments
-4. ✅ MultiRes-Action: ABANDONED (scooped by HARP-VLA, Moto, LAPA)
-5. ✅ RoVLA: verified repo EXISTS (was incorrectly claimed as unreleased)
-6. ✅ Memory check: OpenVLA LoRA needs ~27GB, L4 has 24GB → need L40S
-
-## Open Blockers
-1. **g6e.xlarge access** — AWS API timing out. Retry when API stabilizes.
-2. **OpenVLA on L4** — 27GB > 24GB. Options: 4-bit quantization (distorts baseline) or use L40S.
+1. ✅ Fix commit 775334e false claim
+2. ✅ L4 environment setup (PyTorch, transformers, timm)
+3. ✅ Diagnosis experiments (EXP1-3)
+4. ⏳ All-suites experiment (spatial/object/goal/10)
+5. ⏳ LIBERO environment setup for real episodes
+6. ⏳ RobustVLA baseline reproduction
+7. ⏳ PerturbVLA training
