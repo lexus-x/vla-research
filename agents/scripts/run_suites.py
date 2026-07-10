@@ -22,14 +22,22 @@ def run_suite(mdl_name):
     proc = AutoProcessor.from_pretrained(mdl_name, trust_remote_code=True)
     model = AutoModelForVision2Seq.from_pretrained(mdl_name, torch_dtype=torch.bfloat16, trust_remote_code=True).to(DEVICE).eval()
     print(f"Loaded {time.time()-t0:.0f}s VRAM {torch.cuda.memory_allocated()/1e9:.2f}GB", flush=True)
-    unnorm = mdl_name.split("/")[-1].replace("openvla-7b-finetuned-", "")
+    UNNORM_KEYS = {
+        "openvla/openvla-7b-finetuned-libero-spatial": "libero_spatial",
+        "openvla/openvla-7b-finetuned-libero-object": "libero_object",
+        "openvla/openvla-7b-finetuned-libero-goal": "libero_goal",
+        "openvla/openvla-7b-finetuned-libero-10": "libero_10",
+    }
     def pred(img, instr):
         inp = proc(instr, img)
         for k, v in inp.items():
             if hasattr(v, "to"):
-                inp[k] = v.to(DEVICE, dtype=torch.bfloat16) if k == "pixel_values" else v.to(DEVICE)
+                if k == "pixel_values":
+                    inp[k] = v.to(DEVICE, dtype=torch.bfloat16)
+                else:
+                    inp[k] = v.to(DEVICE)
         with torch.no_grad():
-            return model.predict_action(**inp, unnorm_key=unnorm, do_sample=False)
+            return model.predict_action(**inp, unnorm_key="libero_spatial", do_sample=False)
     eps = [{"img": Image.fromarray(np.random.randint(0,255,(128,128,3),dtype=np.uint8)), "i": t} for t in ["pick up the red bowl","open the drawer","push the mug"]]
     results = {}
     r = {}
