@@ -1,0 +1,60 @@
+# VLA Research Base Configuration
+# Target: LIBERO, LIBERO+, MetaWorld
+# Hardware: 1x L40S (48GB VRAM)
+# Budget: <500M params total or <10M module
+
+experiment:
+  name: "vla_novel_breakthrough"
+  seed: 42
+  device: "cuda"
+  mixed_precision: true
+
+model:
+  # To be filled per candidate idea
+  type: "tbd"
+  params_limit: 500_000_000
+  module_params_limit: 10_000_000
+
+data:
+  datasets:
+    - name: "libero"
+      suites: ["spatial", "object", "goal", "long"]
+      path: "data/libero"
+    - name: "libero_plus"
+      path: "data/libero_plus"
+    - name: "metaworld"
+      tasks: "all"
+      path: "data/metaworld"
+  
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+
+training:
+  optimizer: "adamw"
+  lr: 1.0e-4
+  weight_decay: 0.01
+  batch_size: 32
+  max_steps: 50000
+  warmup_steps: 1000
+  gradient_clip: 1.0
+  
+  # Action head specific
+  action_loss: "l2"  # or "diffusion", "flow_matching"
+  action_horizon: 8  # action chunking
+
+evaluation:
+  benchmarks: ["libero", "libero_plus", "metaworld"]
+  num_seeds: 3
+  eval_episodes: 100
+  metrics:
+    - "success_rate"
+    - "avg_reward"
+    - "inference_latency_ms"
+    - "throughput_hz"
+
+compute:
+  gpu: "L40S"
+  gpu_memory_gb: 48
+  num_gpus: 1
+  max_training_hours: 24
