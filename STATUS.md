@@ -8,11 +8,11 @@
 | **Analysis** | PerturbVLA diagnosis plan | agent/analysis-perturbvla | ✅ PLAN DONE | — | — | — |
 | **Analysis** | Baseline reproduction (RobustVLA, RoVLA) | agent/analysis-perturbvla | ⏳ BLOCKED | L4 (24GB) | — | Awaiting env |
 | **Analysis** | Exp 1-5: Diagnosis experiments | agent/analysis-perturbvla | ⏳ BLOCKED | L4 (24GB) | — | After baselines |
-| **Audit** | MultiRes-Action design-space review | agent/audit-multires | 🟡 MATRIX DONE | — | — | — |
-| **Audit** | Defensibility verdict | agent/audit-multires | ⏳ PENDING | — | — | Needs deeper analysis |
+| **Audit** | MultiRes-Action design-space review | agent/audit-multires | ✅ ABANDONED | — | — | — |
+| **Audit** | Defensibility verdict | agent/audit-multires | ❌ ABANDON (scooped by HARP-VLA, Moto, LAPA) | — | — | — |
 | **Trainer** | MambaFlow training | trainer/mambaflow | ⏳ DEPRIORITIZED | L4 (24GB) | — | Gated on WS1+WS2 |
 | **Trainer** | PerturbVLA training | trainer/perturb | ⏳ REPOSITIONING | L4 (24GB) | — | After diagnosis |
-| **Trainer** | MultiRes-Action training | trainer/multires | 🔴 BLOCKED | — | — | After audit verdict |
+| **Trainer** | MultiRes-Action training | trainer/multires | ❌ ABANDONED | — | — | Fold into PerturbVLA if diagnosed |
 
 ## Environment Status
 | Resource | Status | Details |

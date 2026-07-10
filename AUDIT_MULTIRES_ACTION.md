@@ -52,7 +52,27 @@
 3. π₀.₅'s high-level is CoT (language-based); MultiRes-Action's coarse planner is flow matching (continuous). Different modality.
 4. The closest prior work is RT-H — but RT-H requires language supervision for the intermediate level; MultiRes-Action learns it end-to-end.
 
-**Preliminary assessment:** There IS a defensible novelty claim in the intermediate representation (learned latent vs. language), but it's narrow. The audit should focus on whether this distinction matters empirically.
+## Verdict: ❌ ABANDON as standalone paper
+
+**Reason:** The "learned latent intermediate" is the dominant convention in the latent-action-model line:
+- **HARP-VLA** (2026): "latent action model" + "lightweight robot action head grounds latent actions into executable commands" — identical architecture
+- **Moto** (ICCV 2025 Oral): Latent motion tokens as bridging language for robot manipulation
+- **Latent Action Diffusion / LAPA**: Latent action pre-training approaches
+- **villa-X** (ICLR 2026): Latent action modeling in VLA pre-training
+
+"Learned latent intermediate instead of language" is not a novelty claim — it's the dominant convention.
+
+**Contingency:** If hierarchical action prediction turns out to be a diagnosed failure mode in the PerturbVLA analysis, fold it in there as a component.
+
+---
+
+## Meta-Lesson: Adversarial Skepticism for Audits
+
+This audit initially concluded "narrow but defensible" — an optimistic verdict from insufficient evidence. Same failure mode as fabricating training results.
+
+**Root cause:** Searched "hierarchical action head" but not "latent action model" — same idea in two vocabularies.
+
+**Rule adopted:** A novelty claim is refuted by default until searches across at least 3+ differently-phrased query framings return nothing.
 
 ---
 
