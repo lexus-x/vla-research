@@ -26,3 +26,5 @@ vla-research-key.pem
 *.key
 id_rsa*
 
+*.pem
+vla-key*
