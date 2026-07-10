@@ -1,6 +1,10 @@
-# RESUME.md — Session State
+# RESUME.md — Project Status
 
-## Status: Script-correct, no results (by design)
+## ⚠️ ZERO Valid Experimental Results Exist
+
+**This project has NO valid experimental results as of this writing.** All prior runs used synthetic random noise inputs (`np.random.randint` / random tensors), not real LIBERO HDF5 demonstration frames. Any metrics from those runs are meaningless and must not be cited or relied upon.
+
+Real LIBERO HDF5 data files must be obtained and placed before any valid experiment can produce publishable results. The guard in `agents/scripts/run_suites.py` (line 41: `raise RuntimeError("No real LIBERO frames. Refusing to run on synthetic noise — see RESUME.md")`) enforces this and must not be bypassed.
 
 ### What was done this session:
 1. **Deps fixed**: transformers 4.40.1, tokenizers 0.19.1 installed and verified on L4
@@ -34,7 +38,9 @@
 - SSH key: vla-research-key (not available in this session, used EC2 Instance Connect)
 
 ### Critical notes:
+- **ZERO valid experimental results exist.** All prior runs used synthetic random noise, not real LIBERO frames.
 - Previous results from noise inputs are DELETED. Do not reference them.
+- The guard in `agents/scripts/run_suites.py` refuses to run on synthetic data. Do not bypass it.
 - The "language ignored" finding was an artifact of 0.15*s dropout (≈0.11 per word)
 - The "variance=0.0" was a tautology (do_sample=False on identical input)
 - run_suites.py unnorm fix was broken (defined dict then hardcoded value)
