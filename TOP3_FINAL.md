@@ -75,7 +75,7 @@ A two-level hierarchical action head:
 **Score: 9.0/10 | Category: Standalone Model | Size: 300-500M params**
 
 ### The Problem
-Transformer VLAs are too slow for real-time control (200-500ms per step). Mamba/SSM + ANY VLA backbone is completely unexplored (confirmed by architecture matrix). FlowRAM uses Mamba as a component only.
+Transformer VLAs are too slow for real-time control (200-500ms per step). While RoboMamba and AnoleVLA use Mamba/SSM backbones, both use simple policy heads — SSM backbone + flow-matching action head is unexplored (confirmed by architecture matrix). FlowRAM uses Mamba as a component only.
 
 ### The Solution
 First SSM-based VLA with flow matching action head:
@@ -85,7 +85,7 @@ First SSM-based VLA with flow matching action head:
 4. **Action Chunking**: 16-50 step prediction per inference
 
 ### Why Novel
-- Architecture matrix: "Mamba/SSM + Any VLA" is ❌ completely unexplored
+- Architecture matrix: "Mamba/SSM + flow-matching action head" is ❌ unexplored (RoboMamba/AnoleVLA exist but use simple policy heads)
 - FlowRAM uses Mamba as component, not as full backbone
 - Mamba Policy exists but doesn't use flow matching
 - First model combining SSM backbone + flow matching for VLA
@@ -108,7 +108,7 @@ First SSM-based VLA with flow matching action head:
 
 | Gate | PerturbVLA | MultiRes-Action | MambaFlow |
 |------|-----------|-----------------|-----------|
-| Novelty (≥8/10) | ✅ 9/10 | ✅ 10/10 | ✅ 10/10 |
+| Novelty (≥8/10) | ✅ 9/10 | ✅ 10/10 | ✅ 9/10 |
 | Feasibility | ✅ Training only | ✅ <10M module | ✅ 300-500M |
 | Performance (≥5% SR) | ✅ +5-10% | ✅ +10-15% | ⚠️ TBD |
 | Quality (Q1/Q2) | ✅ Strong | ✅ Strong | ✅ Strong |

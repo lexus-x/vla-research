@@ -21,13 +21,13 @@
 - **Category:** standalone_model
 - **Core Concept:** Replace transformer backbone with Mamba (selective state space model) for linear-time inference, combined with flow matching action head for smooth continuous actions
 - **Origin Domain:** Sequence modeling (Mamba) + dynamical systems (flow matching)
-- **Why Novel:** Architecture matrix confirms Mamba/SSM + ANY VLA is completely unexplored. FlowRAM uses Mamba but only as a component, not as the full backbone
+- **Why Novel:** Architecture matrix confirms SSM backbone + flow-matching action head is unexplored. RoboMamba and AnoleVLA use Mamba backbones but with simple policy heads, not flow matching. FlowRAM uses Mamba but only as a component, not as the full backbone
 - **Target Problem:** Inference latency — transformer VLAs are too slow for real-time control (200-500ms). Mamba processes in O(n) vs O(n²) for transformers
 - **Architecture:** Mamba backbone (130M-300M) + SigLIP vision encoder + flow matching action head
 - **Expected Params:** 300-500M total
 - **Expected Improvement:** 3-5x faster inference (from ~200ms to ~40-60ms), comparable SR
 - **Gate Scores:**
-  - Novelty: 10/10 (completely unexplored)
+  - Novelty: 9/10 (SSM+flow-matching unexplored; SSM+simple-head exists)
   - Feasibility: 8/10 (Mamba kernels mature, flow matching well-understood)
   - Performance: 8/10 (speed improvement guaranteed, SR TBD)
   - Quality: 9/10 (strong novelty + rigorous ablation potential)

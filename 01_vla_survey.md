@@ -400,7 +400,7 @@ A cluster of 4 concurrent papers submitted to ICLR 2026 proposing discrete diffu
 
 ## ICLR 2026 VLA Trends Summary
 
-Based on analysis of 164 VLA submissions at ICLR 2026 (18× increase from ICLR 2025):
+Based on analysis of 164 VLA submissions at ICLR 2026 (18× increase from ICLR 2025's 9 submissions). Source: Moritz Reuss blog post (Oct 2025), which searched OpenReview for the “Vision-Language-Action” keyword. Note: this is a keyword-based count from a single researcher's search, not an official ICLR statistic — the actual number of VLA-related submissions may differ slightly depending on keyword definitions.
 
 1. **Discrete Diffusion VLAs** — fastest-growing trend; parallel action generation
 2. **Reasoning VLAs / Embodied Chain-of-Thought** — reasoning before acting
@@ -443,4 +443,5 @@ Based on analysis of 164 VLA submissions at ICLR 2026 (18× increase from ICLR 2
 26. XR-1, arXiv 2025
 27. VLA-RL, arXiv 2025
 28. EdgeVLA, Workshop/preprint 2025-2026
+29. Cao et al., "Mamba Policy: Towards Efficient 3D Diffusion Policy with Hybrid Selective State Models," ICRA 2025 (arXiv 2409.07163)
 
