@@ -1,42 +1,103 @@
-# VLA Novel Breakthrough Research
+# VLA (Vision-Language-Action) Research Survey & Novel Ideas
 
-PhD-level research project targeting novel breakthroughs in Vision-Language-Action (VLA) models.
+**Comprehensive survey of 25+ VLA models from 2024–2026, with architecture taxonomy, benchmark analysis, and 3 novel research implementations.**
 
-## Top 3 Ideas (Novelty-Verified)
+---
+
+## 📊 Survey Highlights
+
+- **25 distinct VLA models** cataloged with full architecture details
+- **164 ICLR 2026 VLA submissions** analyzed (18× growth from 2025)
+- **7 action head types** compared: discrete tokens, MLP, diffusion, flow matching, chunked, discrete diffusion, frequency-domain
+- **28 references** from top venues (ICLR, NeurIPS, CoRL, ICRA, ICCV, EMNLP)
+
+## 🗂️ Repository Contents
+
+| File | Description | Lines |
+|------|-------------|-------|
+| [`01_vla_survey.md`](01_vla_survey.md) | **Main survey** — 25 models, architecture taxonomy, benchmark comparison, limitations | 446 |
+| [`02_cross_domain_ideas.md`](02_cross_domain_ideas.md) | 15 cross-domain techniques for VLA improvement | 474 |
+| [`03_benchmark_analysis.md`](03_benchmark_analysis.md) | LIBERO, LIBERO+, MetaWorld benchmark deep-dive | 164 |
+| [`04_architecture_matrix.md`](04_architecture_matrix.md) | 14 models decomposed into component matrix | 305 |
+| [`05_novelty_database.md`](05_novelty_database.md) | 55+ papers with novelty verification | 166 |
+| [`CANDIDATE_IDEAS.md`](CANDIDATE_IDEAS.md) | 10 ranked research ideas | 245 |
+| [`TOP3_FINAL.md`](TOP3_FINAL.md) | Top 3 ideas with gate evaluation | 118 |
+
+## 🏆 Top 3 Novel Research Ideas
 
 ### 1. PerturbVLA — Adversarial Perturbation Training (Score: 9.6)
 - **Problem:** VLAs memorize trajectories (LIBERO-PRO: 90% → 0% under perturbation)
 - **Solution:** Systematic adversarial perturbation training + contrastive robustness loss
-- **Size:** 0 extra params (training method)
+- **Size:** 0 extra params (training method only)
 - **Expected:** Maintain >80% SR under perturbation
 
 ### 2. MultiRes-Action — Coarse-to-Fine Action Head (Score: 9.4)
-- **Problem:** Long-horizon tasks are hardest (5-15% gap)
+- **Problem:** Long-horizon tasks are hardest (5–15% gap)
 - **Solution:** Hierarchical coarse planner (flow matching) + fine controller (MLP)
 - **Size:** <10M params (plug-in module)
-- **Expected:** +10-15% on long-horizon tasks
+- **Expected:** +10–15% on long-horizon tasks
 
 ### 3. MambaFlow — SSM Backbone + Flow Matching (Score: 9.0)
-- **Problem:** Transformer VLAs too slow for real-time control (200-500ms)
+- **Problem:** Transformer VLAs too slow for real-time control (200–500ms)
 - **Solution:** Mamba (SSM) backbone with flow matching action head
-- **Size:** 300-500M params
-- **Expected:** 3-5x faster inference
+- **Size:** 300–500M params
+- **Expected:** 3–5× faster inference
 
-## Benchmarks
-- LIBERO, LIBERO+, MetaWorld (simulation only)
+## 📈 Key Survey Findings
 
-## Hardware
-- AWS g6.2xlarge (L40S, 48GB VRAM)
+### Models Documented
+| Category | Models |
+|----------|--------|
+| **Foundational (2022–2024)** | RT-1, RT-2, Octo, OpenVLA, π₀, π₀.₅, RoboFlamingo, CrossFormer |
+| **2025** | DexVLA, CoT-VLA, SmolVLA, ChatVLA, ChatVLA-2, Dita, FLOWER, Helix, MemoryVLA, X-VLA, XR-1, VLA-RL, EdgeVLA |
+| **2026** | Xiaomi-Robotics-0, VLANeXt, StarVLA-α, Discrete Diffusion VLA cluster |
 
-## Research Pipeline
+### Architecture Taxonomy — Action Heads
+| Type | Speed | Smoothness | Multi-modal | Models |
+|------|-------|------------|-------------|--------|
+| Discrete Tokens (AR) | Slow | Low | No | RT-2, OpenVLA, ChatVLA |
+| MLP Head | Fast | Medium | Limited | StarVLA-α |
+| Diffusion (DDPM) | Slow | High | Yes | Octo, DexVLA, Dita |
+| Flow Matching | Medium | Highest | Yes | π₀, FLOWER, Xiaomi-Robotics-0 |
+| Chunked (ACT) | Fast | High | Medium | SmolVLA |
+| Discrete Diffusion | Fast | High | Yes | dVLA, DIVA (ICLR 2026) |
+
+### Benchmark Status
+- **LIBERO**: Essentially solved (>95% for most suites) — no longer discriminative
+- **CALVIN ABC**: >4.5 is SOTA (FLOWER: 4.53)
+- **SIMPLER**: 40–99% span on Bridge — hard to interpret cross-paper
+
+### Critical Limitations
+1. **Benchmark saturation** — LIBERO solved; sim results unreliable
+2. **Inference latency** — 7B+ models ~300ms/step; too slow for reactive tasks
+3. **Generalization gap** — zero-shot still limited; sim-to-real transfer unreliable
+4. **Data infrastructure** — fidelity-cost trade-off; dataset heterogeneity
+5. **Hidden frontier gap** — proprietary datasets at Google/PI are orders of magnitude larger
+
+## 🏗️ Research Pipeline
+
 1. ✅ Literature survey (25 models, 1490+ lines)
 2. ✅ Cross-domain mining (15 techniques)
 3. ✅ Architecture decomposition (14 models)
 4. ✅ Benchmark analysis
 5. ✅ Novelty verification (55+ papers)
 6. ✅ Top 3 selection and gate evaluation
-7. ✅ Implementation (code/perturb_vla, code/multires_action, code/mambaflow)
+7. ✅ Implementation (`code/perturb_vla`, `code/multires_action`, `code/mambaflow`)
 8. ⏳ Training on AWS
 9. ⏳ Evaluation and ablation
 10. ⏳ Paper writing
 
+## 📚 References
+
+Key survey papers:
+- Ma et al., "A Survey on Vision-Language-Action Models for Embodied AI," IEEE TNNLS 2026
+- Wang et al., "VLA in Robotics: A Survey of Datasets, Benchmarks, and Data Engines," arXiv 2026
+- Reuss, "State of VLA Research at ICLR 2026," blog post 2025
+
+## License
+
+Research use only. See individual paper licenses for referenced models.
+
+---
+
+*Generated by VLA Research Agent — July 2026*
