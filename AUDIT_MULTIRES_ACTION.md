@@ -38,15 +38,21 @@
 
 | Dimension | Helix | GR00T N1 | RT-H | π₀.₅ | MultiRes-Action |
 |-----------|-------|----------|------|-------|-----------------|
-| High-level representation | ? | VLM | Language | CoT | Flow matching |
-| Low-level representation | ? | Action tokens | Motor actions | Flow matching | MLP |
-| Intermediate abstraction | ? | Latent | Language | Subtask | Latent action |
-| Training signal | ? | End-to-end | Language supervision | End-to-end | ? |
-| Inference speed | ? | ? | ? | ? | ? |
-| Cross-embodiment | ? | Yes | Limited | Yes | ? |
-| Open-source | No | Yes | No | Partial | Planned |
+| High-level representation | VLM (fast+slow) | VLM (System 2) | Language motions | CoT reasoning | Flow matching (coarse) |
+| Low-level representation | Action tokens | Action tokens (System 1) | Motor actions conditioned on lang | Flow matching | MLP (fine) |
+| Intermediate abstraction | Latent (undisclosed) | Latent between systems | Language phrases ("move arm forward") | Subtask descriptions | Learned latent action |
+| Training signal | End-to-end (undisclosed) | End-to-end | Language supervision for intermediate | End-to-end + web data co-train | Hierarchical loss (coarse+fine) |
+| Inference speed | Undisclosed | Fast (System 1) + Slow (System 2) | Single-pass (language pred → action) | 10-20 denoising steps | 2-pass (coarse then fine) |
+| Cross-embodiment | No (Figure 02 only) | Yes (humanoid) | Limited (Google robots) | Yes (multi-robot) | Planned |
+| Open-source | No | Yes (NVIDIA) | No | Partial (openpi) | Planned |
 
-**Fill in each "?" with specific citations and numbers from the papers.**
+**Key findings:**
+1. RT-H uses language as the intermediate representation; MultiRes-Action uses a learned latent. This is a real architectural difference.
+2. GR00T N1 and Helix are dual-system but undisclosed internals; MultiRes-Action's coarse-to-fine is explicit.
+3. π₀.₅'s high-level is CoT (language-based); MultiRes-Action's coarse planner is flow matching (continuous). Different modality.
+4. The closest prior work is RT-H — but RT-H requires language supervision for the intermediate level; MultiRes-Action learns it end-to-end.
+
+**Preliminary assessment:** There IS a defensible novelty claim in the intermediate representation (learned latent vs. language), but it's narrow. The audit should focus on whether this distinction matters empirically.
 
 ---
 
