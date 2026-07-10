@@ -1,0 +1,20 @@
+{
+  "experiment": "exp2_language_ablation",
+  "model": "openvla/openvla-7b-finetuned-libero-spatial",
+  "gpu": "NVIDIA L4",
+  "vram_gb": 15.10,
+  "findings": {
+    "language_affects_actions_in_finetuned_model": true,
+    "base_openvla_actions_identical_0_75pct": true,
+    "finetuned_openvla_actions_differ_at_75pct": true,
+    "key_difference": "gripper dimension changes significantly at 100% dropout (0.664 -> 0.996)",
+    "subtle_language_effect": "0-50% dropout: actions nearly identical; 75%+: diverge"
+  },
+  "dropouts": {
+    "0.0": {"identical": false, "note": "baseline"},
+    "0.25": {"identical": false, "actions_same_as_baseline": true},
+    "0.5": {"identical": false, "actions_same_as_baseline": true},
+    "0.75": {"identical": false, "actions_start_diverging": true},
+    "1.0": {"identical": false, "gripper_change": "0.664 -> 0.996"}
+  }
+}
