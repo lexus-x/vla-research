@@ -17,3 +17,12 @@ wandb/
 runs/
 *.log
 .DS_Store
+-e 
+# Security - never commit keys
+vla-key
+vla-key.pub
+vla-research-key.pem
+*.pem
+*.key
+id_rsa*
+
